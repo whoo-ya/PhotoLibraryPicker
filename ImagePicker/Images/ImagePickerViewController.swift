@@ -2,13 +2,13 @@ import UIKit
 import Photos
 import SnapKit
 
-class SelectPhotoViewController: UIViewController, PhotoLibraryCollectionViewDelegate {
+class ImagePickerViewController: UIViewController, PhotoLibraryCollectionViewDelegate {
     
     private let scrollView = UIScrollView()
     
     private lazy var previewView: AlbumItemPreviewView = AlbumItemPreviewView.viewFromNib()
     
-    private lazy var toolsView: SelectPhotoToolsView = SelectPhotoToolsView.viewFromNib()
+    private lazy var toolsView: ImagePickerToolsView = ImagePickerToolsView.viewFromNib()
     
     private lazy var collectionView: PhotoLibraryCollectionView = {
         return PhotoLibraryCollectionView(photoLibraryDelegate: self)
@@ -16,6 +16,12 @@ class SelectPhotoViewController: UIViewController, PhotoLibraryCollectionViewDel
     
     let library = PhotoLibrary()
     var selectedAlbum: Album?
+    
+    private var previewViewTopConstraint: NSLayoutConstraint!
+    
+    private var headerMinimizeTool: HeaderMinimizeTool?
+    
+    private let cart = AlbumItemCart()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +49,7 @@ class SelectPhotoViewController: UIViewController, PhotoLibraryCollectionViewDel
         scrollView.snp.makeConstraints { snp in
             snp.edges.equalToSuperview()
         }
+        scrollView.alwaysBounceVertical = true
         
         let containerView = UIView()
         scrollView.addSubview(containerView)
@@ -52,12 +59,20 @@ class SelectPhotoViewController: UIViewController, PhotoLibraryCollectionViewDel
         
         containerView.addSubview(previewView)
         previewView.snp.makeConstraints { snp in
-            snp.top.equalToSuperview()
             snp.left.equalToSuperview()
             snp.right.equalToSuperview()
             snp.width.equalTo(scrollView.snp.width)
             snp.height.equalTo(scrollView.snp.width)
         }
+        
+        previewViewTopConstraint = NSLayoutConstraint(item: previewView,
+                                                      attribute: .top,
+                                                      relatedBy: .equal,
+                                                      toItem: containerView,
+                                                      attribute: .top,
+                                                      multiplier: 1,
+                                                      constant: 0)
+        previewViewTopConstraint.isActive = true
         
         containerView.addSubview(toolsView)
         toolsView.snp.makeConstraints { snp in
@@ -70,11 +85,26 @@ class SelectPhotoViewController: UIViewController, PhotoLibraryCollectionViewDel
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { snp in
             snp.top.equalTo(toolsView.snp.bottom)
+            
+//            snp.bottom.equalTo(view.snp.bottom)
             snp.bottom.equalToSuperview()
+            snp.height.equalTo(300)
+            
             snp.left.equalToSuperview()
             snp.right.equalToSuperview()
-            snp.height.equalTo(300)
-        }        
+
+        }
+        
+        headerMinimizeTool = HeaderMinimizeTool(parentView: view,
+                                            headerView: previewView,
+                                            collectionView: collectionView,
+                                            headerViewTopConstraints: previewViewTopConstraint,
+                                            headerViewMinimalHeight: 20)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save",
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(saveSelectedPhoto))
     }
     
     func show(album: Album) {
@@ -91,5 +121,10 @@ class SelectPhotoViewController: UIViewController, PhotoLibraryCollectionViewDel
     
     func selectItem(_ albumItem: AlbumItem) {
         previewView.bind(albumItem)
+    }
+    
+    @objc
+    private func saveSelectedPhoto() {
+        print("cart.count = '\(cart.getItems().count)'")
     }
 }

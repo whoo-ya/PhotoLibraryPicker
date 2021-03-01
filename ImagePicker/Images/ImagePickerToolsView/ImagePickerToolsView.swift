@@ -1,8 +1,8 @@
 import UIKit
 
-class SelectPhotoToolsView: UIView {
+class ImagePickerToolsView: UIView {
     
-    public weak var delegate: SelectPhotoToolsViewDelegate?
+    public weak var delegate: ImagePickerToolsViewDelegate?
     
     @IBOutlet weak var albumContainerView: UIView!
     @IBOutlet weak var albumTitleLabel: UILabel!
@@ -13,7 +13,7 @@ class SelectPhotoToolsView: UIView {
         albumContainerView.target(forAction: #selector(didTapSelectAlbum), withSender: self)
     }
     
-    public func bind(_ item: SelectPhotoToolsViewItem) {
+    public func bind(_ item: ImagePickerToolsViewItem) {
         
     }
     

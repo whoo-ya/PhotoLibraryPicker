@@ -4,9 +4,9 @@ import AVKit
 
 class AlbumItemPreviewView: UIView {
     
-    private var currentItem: AlbumItem? = nil
-    
     @IBOutlet private weak var previewView: UIView!
+    
+    private var currentItem: AlbumItem? = nil
     
     private let photoView = UIImageView()
     
@@ -21,6 +21,7 @@ class AlbumItemPreviewView: UIView {
     }
     
     private func configureUI() {
+        previewView.contentMode = .scaleAspectFit
         previewView.addSubview(photoView)
         photoView.snp.makeConstraints {snp in
             snp.edges.equalToSuperview()

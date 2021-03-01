@@ -3,9 +3,10 @@ import Photos
 
 public class AssetImageLoader {
     
-    public static func loadImage(_ asset: PHAsset, for imageView: UIImageView) {
+    public static func loadImage(_ asset: PHAsset, for imageView: UIImageView, completion: (() -> Void)? = nil) {
         guard imageView.frame.size != CGSize.zero else {
             imageView.image = UIImage(named: "gallery_placeholder")
+            completion?()
             return
         }
         
@@ -29,6 +30,7 @@ public class AssetImageLoader {
                                                        contentMode: .aspectFill,
                                                        options: options) { [weak imageView] image, _ in
             imageView?.image = image
+            completion?()
         }
         
         imageView.tag = Int(id)

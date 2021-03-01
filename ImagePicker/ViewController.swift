@@ -9,7 +9,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showImagePicker(_ sender: Any) {
-        let vc = SelectPhotoViewController()
+        let vc = ImagePickerViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }

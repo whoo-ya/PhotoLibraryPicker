@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol SelectPhotoToolsViewDelegate: class {
+public protocol ImagePickerToolsViewDelegate: class {
     
     func didTapSelectAlbum()
     
