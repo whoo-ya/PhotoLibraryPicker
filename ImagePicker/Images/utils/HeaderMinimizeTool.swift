@@ -99,8 +99,8 @@ public class HeaderMinimizeTool: NSObject, UIGestureRecognizerDelegate {
         
         switch sender.state {
         case .began:
-            let view    = sender.view
-            let loc     = sender.location(in: view)
+            let view = sender.view
+            let loc = sender.location(in: view)
             let subview = view?.hitTest(loc, with: nil)
             
             if subview == headerView

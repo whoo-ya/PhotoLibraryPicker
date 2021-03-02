@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VNj-sn-x2b" customClass="AlbumItemCell" customModule="ImagePicker" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="285" height="254"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="qws-PN-cT1">
+                <rect key="frame" x="0.0" y="0.0" width="285" height="254"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sLP-an-Zrc">
+                        <rect key="frame" x="0.0" y="0.0" width="285" height="254"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q3M-sQ-u06">
+                                <rect key="frame" x="0.0" y="0.0" width="285" height="254"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cd9-jh-PY2">
+                                <rect key="frame" x="280" y="5" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="cd9-jh-PY2" secondAttribute="trailing" constant="5" id="0M0-lS-vCK"/>
+                            <constraint firstAttribute="bottom" secondItem="q3M-sQ-u06" secondAttribute="bottom" id="8ul-VN-YcP"/>
+                            <constraint firstItem="q3M-sQ-u06" firstAttribute="leading" secondItem="sLP-an-Zrc" secondAttribute="leading" id="Ql9-tI-kxb"/>
+                            <constraint firstItem="cd9-jh-PY2" firstAttribute="top" secondItem="sLP-an-Zrc" secondAttribute="top" constant="5" id="ckt-59-6Mi"/>
+                            <constraint firstAttribute="trailing" secondItem="q3M-sQ-u06" secondAttribute="trailing" id="ldS-LX-rVv"/>
+                            <constraint firstItem="q3M-sQ-u06" firstAttribute="top" secondItem="sLP-an-Zrc" secondAttribute="top" id="ney-m5-haV"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="sLP-an-Zrc" firstAttribute="leading" secondItem="qws-PN-cT1" secondAttribute="leading" id="Cs9-xU-hPi"/>
+                    <constraint firstAttribute="bottom" secondItem="sLP-an-Zrc" secondAttribute="bottom" id="Ekw-wo-xEJ"/>
+                    <constraint firstAttribute="trailing" secondItem="sLP-an-Zrc" secondAttribute="trailing" id="LZJ-2y-SLS"/>
+                    <constraint firstItem="sLP-an-Zrc" firstAttribute="top" secondItem="qws-PN-cT1" secondAttribute="top" id="ygY-B6-2w2"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="285" height="254"/>
+            <connections>
+                <outlet property="imageView" destination="q3M-sQ-u06" id="T1m-ZB-gDc"/>
+                <outlet property="indexLabel" destination="cd9-jh-PY2" id="cN8-iB-rxc"/>
+            </connections>
+            <point key="canvasLocation" x="-84.782608695652186" y="68.973214285714278"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

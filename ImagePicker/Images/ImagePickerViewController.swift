@@ -2,7 +2,7 @@ import UIKit
 import Photos
 import SnapKit
 
-class ImagePickerViewController: UIViewController, PhotoLibraryCollectionViewDelegate {
+class ImagePickerViewController: UIViewController {
     
     private let scrollView = UIScrollView()
     
@@ -37,12 +37,11 @@ class ImagePickerViewController: UIViewController, PhotoLibraryCollectionViewDel
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
-    
-    // MARK: - Setup
     
     func configureUI() {
         view.addSubview(scrollView)
@@ -50,6 +49,8 @@ class ImagePickerViewController: UIViewController, PhotoLibraryCollectionViewDel
             snp.edges.equalToSuperview()
         }
         scrollView.alwaysBounceVertical = true
+        
+        toolsView.delegate = self
         
         let containerView = UIView()
         scrollView.addSubview(containerView)
@@ -92,7 +93,6 @@ class ImagePickerViewController: UIViewController, PhotoLibraryCollectionViewDel
             
             snp.left.equalToSuperview()
             snp.right.equalToSuperview()
-
         }
         
         headerMinimizeTool = HeaderMinimizeTool(parentView: view,
@@ -118,13 +118,27 @@ class ImagePickerViewController: UIViewController, PhotoLibraryCollectionViewDel
             show(album: selectedAlbum)
         }
     }
+        
+    @objc
+    private func saveSelectedPhoto() {
+        print("cart.count = '\(cart.getItems().count)'")
+    }
+}
+
+extension ImagePickerViewController: PhotoLibraryCollectionViewDelegate {
     
     func selectItem(_ albumItem: AlbumItem) {
         previewView.bind(albumItem)
     }
+}
+
+extension ImagePickerViewController: ImagePickerToolsViewDelegate {
     
-    @objc
-    private func saveSelectedPhoto() {
-        print("cart.count = '\(cart.getItems().count)'")
+    func didTapSelectAlbum() {
+        
+    }
+    
+    func didTapMultipleMode(_ enable: Bool) {
+        collectionView.enableMultipleMode(enable)
     }
 }

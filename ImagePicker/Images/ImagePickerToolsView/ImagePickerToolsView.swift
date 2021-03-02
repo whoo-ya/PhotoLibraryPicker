@@ -9,6 +9,8 @@ class ImagePickerToolsView: UIView {
     
     @IBOutlet weak var albumSelectImage: UIImageView!
     
+    private var isMultipleSelectEnable = false
+    
     private func configureUI() {
         albumContainerView.target(forAction: #selector(didTapSelectAlbum), withSender: self)
     }
@@ -18,7 +20,7 @@ class ImagePickerToolsView: UIView {
     }
     
     public func multipleSelectEnable() -> Bool {
-        return true
+        return isMultipleSelectEnable
     }
     
     @objc func didTapSelectAlbum() {
@@ -26,6 +28,7 @@ class ImagePickerToolsView: UIView {
     }
     
     @IBAction func didTapMultipleMode(_ sender: Any) {
-        delegate?.didTapMultipleMode()
+        isMultipleSelectEnable = !isMultipleSelectEnable
+        delegate?.didTapMultipleMode(isMultipleSelectEnable)
     }
 }

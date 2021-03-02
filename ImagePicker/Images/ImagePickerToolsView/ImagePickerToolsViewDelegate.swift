@@ -4,6 +4,6 @@ public protocol ImagePickerToolsViewDelegate: class {
     
     func didTapSelectAlbum()
     
-    func didTapMultipleMode()
+    func didTapMultipleMode(_ enable: Bool)
     
 }

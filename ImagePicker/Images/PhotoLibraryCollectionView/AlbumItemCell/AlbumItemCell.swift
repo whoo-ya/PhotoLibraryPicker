@@ -4,24 +4,29 @@ import SnapKit
 
 public class AlbumItemCell: UICollectionViewCell {
     
-    private lazy var imageView: UIImageView = self.makeImageView()
-    private lazy var highlightOverlay: UIView = self.makeHighlightOverlay()
+    public static let reuseIdentifier = String(describing: AlbumItemCell.self)
+    public static let nibName = "AlbumItemCell"
+
+    @IBOutlet private weak var imageView: UIImageView!
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    @IBOutlet private weak var indexLabel: UILabel!
+    
+    public override func awakeFromNib() {
+        super.awakeFromNib()
         
-        setup()
+        configureUI()
     }
     
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.image = nil
+        indexLabel.text = ""
     }
     
-    
-    public override var isHighlighted: Bool {
-        didSet {
-            highlightOverlay.isHidden = !isHighlighted
-        }
+    private func configureUI() {
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
     }
     
     public func bind(_ item: AlbumItemCellItem) {
@@ -37,52 +42,15 @@ public class AlbumItemCell: UICollectionViewCell {
         }
         
         AssetImageLoader.loadImage(asset, for: imageView) { [weak self] in
-            self?.setSelected(item.isSelected)
+            self?.setSelected(item.isSelected, item.selectedIndex)
         }
     }
     
-    public func setSelected(_ isSelected: Bool) {
+    public func setSelected(_ isSelected: Bool, _ index: Int) {
         imageView.alpha = isSelected ? 0.5 : 1.0
-    }
         
-    private func setup() {
-        [imageView, highlightOverlay].forEach {
-            self.contentView.addSubview($0)
+        if index != 0 {
+            indexLabel.text = "\(index)"
         }
-        
-        imageView.snp.makeConstraints { snp in
-            snp.edges.equalToSuperview()
-        }
-        
-        highlightOverlay.snp.makeConstraints { snp in
-            snp.edges.equalToSuperview()
-        }
-        
-        imageView.isUserInteractionEnabled = true
-        imageView.isMultipleTouchEnabled = true
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGestureActivated))
-        imageView.addGestureRecognizer(pinchGesture)
-    }
-    
-    @objc
-    private func pinchGestureActivated(_ sender: UIPinchGestureRecognizer) {
-        imageView.transform = imageView.transform.scaledBy(x: sender.scale, y: sender.scale)
-    }
-    
-    private func makeImageView() -> UIImageView {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        
-        return imageView
-    }
-    
-    private func makeHighlightOverlay() -> UIView {
-        let view = UIView()
-        view.isUserInteractionEnabled = false
-        view.backgroundColor = UIColor.red
-        view.isHidden = true
-        
-        return view
     }
 }

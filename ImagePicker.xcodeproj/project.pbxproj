@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D3ED7BA25EE9FC0008477F4 /* AlbumItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D3ED7B925EE9FC0008477F4 /* AlbumItemCell.xib */; };
+		7D3ED7C025EEAD5A008477F4 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3ED7BF25EEAD5A008477F4 /* ErrorHandler.swift */; };
 		7D46902F25EBB6AD00A75348 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D46902E25EBB6AD00A75348 /* AppDelegate.swift */; };
 		7D46903325EBB6AD00A75348 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D46903225EBB6AD00A75348 /* ViewController.swift */; };
 		7D46903625EBB6AD00A75348 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D46903425EBB6AD00A75348 /* Main.storyboard */; };
@@ -38,6 +40,8 @@
 /* Begin PBXFileReference section */
 		17E93DCBDD5E7D715FAE03E5 /* Pods_ImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E304C14DDE8A948302100AB /* Pods-ImagePicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePicker.debug.xcconfig"; path = "Target Support Files/Pods-ImagePicker/Pods-ImagePicker.debug.xcconfig"; sourceTree = "<group>"; };
+		7D3ED7B925EE9FC0008477F4 /* AlbumItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlbumItemCell.xib; sourceTree = "<group>"; };
+		7D3ED7BF25EEAD5A008477F4 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		7D46902B25EBB6AD00A75348 /* ImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D46902E25EBB6AD00A75348 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D46903225EBB6AD00A75348 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 			children = (
 				7D46908725EBBA5E00A75348 /* ImagePickerViewController.swift */,
 				843CB0C525ED8A0D00187C99 /* AlbumItemCart.swift */,
+				7D3ED7BF25EEAD5A008477F4 /* ErrorHandler.swift */,
 				843CB0CD25ED8CED00187C99 /* PhotoLibraryCollectionView */,
 				7DB25DED25EBD7DE00392717 /* AlbumItemPreviewView */,
 				7DB25DE525EBD57200392717 /* ImagePickerToolsView */,
@@ -172,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				7D46908E25EBBCA000A75348 /* AlbumItemCell.swift */,
+				7D3ED7B925EE9FC0008477F4 /* AlbumItemCell.xib */,
 				843CB0CA25ED8C7300187C99 /* AlbumItemCellItem.swift */,
 			);
 			path = AlbumItemCell;
@@ -265,6 +271,7 @@
 			files = (
 				7DB25DD725EBD01F00392717 /* AlbumItemPreviewView.xib in Resources */,
 				7D46903B25EBB6AD00A75348 /* LaunchScreen.storyboard in Resources */,
+				7D3ED7BA25EE9FC0008477F4 /* AlbumItemCell.xib in Resources */,
 				7D46903825EBB6AD00A75348 /* Assets.xcassets in Resources */,
 				7DB25DE825EBD62700392717 /* ImagePickerToolsView.xib in Resources */,
 				7D46903625EBB6AD00A75348 /* Main.storyboard in Resources */,
@@ -335,6 +342,7 @@
 				7D46908825EBBA5E00A75348 /* ImagePickerViewController.swift in Sources */,
 				843CB0CB25ED8C7300187C99 /* AlbumItemCellItem.swift in Sources */,
 				7D4690AA25EBC23C00A75348 /* PhotoAlbumItem.swift in Sources */,
+				7D3ED7C025EEAD5A008477F4 /* ErrorHandler.swift in Sources */,
 				7DB25DC625EBCDF100392717 /* PhotoLibraryCollectionView.swift in Sources */,
 				7DB25DE325EBD56D00392717 /* ImagePickerToolsViewDelegate.swift in Sources */,
 				7DB25DDD25EBD21F00392717 /* PhotoLibraryCollectionViewDelegate.swift in Sources */,
