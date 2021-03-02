@@ -8,7 +8,9 @@ public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDeleg
     
     private var currentSelectItem: AlbumItem? = nil
     
-    private let cart = AlbumItemCart()
+    private var cart: AlbumItemCart? {
+        return photoLibraryDelegate?.getCart()
+    }
     
     public var isMultipleSelectEnable = false
     
@@ -34,16 +36,22 @@ public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDeleg
     
     public func bind(_ album: Album) {
         self.items = album.items
+        if let selectedItem = items.first {
+            cart?.addItem(selectedItem)
+            self.currentSelectItem = selectedItem
+            photoLibraryDelegate?.selectItem(selectedItem)
+        }
+        
         reloadData()
         setContentOffset(CGPoint.zero, animated: false)
     }
     
     public func enableMultipleMode(_ enable: Bool) {
         if !enable {
-            let lastAddedItem = cart.getLastAdded()
-            cart.removeAll()
+            let lastAddedItem = cart?.getLastAdded()
+            cart?.removeAll()
             if let lastAddedItem = lastAddedItem {
-                cart.addItem(lastAddedItem)
+                cart?.addItem(lastAddedItem)
             }
         }
         isMultipleSelectEnable = enable
@@ -81,21 +89,25 @@ public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDeleg
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard indexPath.item < items.count else {
+        guard indexPath.item < items.count, let cart = cart else {
             return
         }
         
         let item = items[indexPath.item]
         
         if isMultipleSelectEnable {
-            selectItemForMultipleMode(item)
+            selectItemForMultipleMode(cart, item)
         }
         else {
-            selectItemForOneItemMode(item)
+            selectItemForOneItemMode(cart, item)
         }
     }
     
-    private func selectItemForOneItemMode(_ item: AlbumItem) {
+    private func selectItemForOneItemMode(_ cart: AlbumItemCart, _ item: AlbumItem) {
+        guard currentSelectItem != item else {
+            return
+        }
+        
         var indexPaths: [IndexPath?] = cart.getItems().map { cartItem in
             if let index = items.firstIndex(of: cartItem) {
                 return IndexPath(row: index, section: 0)
@@ -117,7 +129,7 @@ public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDeleg
         reloadItems(at: indexPaths.compactMap { $0 })
     }
     
-    private func selectItemForMultipleMode(_ item: AlbumItem) {
+    private func selectItemForMultipleMode(_ cart: AlbumItemCart, _ item: AlbumItem) {
         var indexPaths: [IndexPath?] = cart.getItems().map { cartItem in
             if let index = items.firstIndex(of: cartItem) {
                 return IndexPath(row: index, section: 0)
@@ -174,7 +186,7 @@ public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDeleg
             return 0
         }
         
-        if let index = cart.getIndex(item) {
+        if let index = cart?.getIndex(item) {
             return index + 1
         }
         else {

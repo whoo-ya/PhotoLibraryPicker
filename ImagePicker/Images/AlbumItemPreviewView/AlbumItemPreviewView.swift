@@ -33,6 +33,9 @@ class AlbumItemPreviewView: UIView {
             snp.edges.equalToSuperview()
         }
         videoView.isHidden = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapItem))
+        addGestureRecognizer(tapGesture)
     }
     
     func bind(_ item: AlbumItem) {
@@ -83,5 +86,10 @@ class AlbumItemPreviewView: UIView {
                 }
             }
         }
+    }
+    
+    @objc
+    private func didTapItem() {
+        
     }
 }

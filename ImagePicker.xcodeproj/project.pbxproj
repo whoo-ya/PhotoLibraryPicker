@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		7D3ED7BA25EE9FC0008477F4 /* AlbumItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D3ED7B925EE9FC0008477F4 /* AlbumItemCell.xib */; };
 		7D3ED7C025EEAD5A008477F4 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3ED7BF25EEAD5A008477F4 /* ErrorHandler.swift */; };
+		7D3ED7C925EEBCCA008477F4 /* YPAssetZoomableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3ED7C825EEBCCA008477F4 /* YPAssetZoomableView.swift */; };
+		7D3ED7CC25EEBCE0008477F4 /* YPVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3ED7CB25EEBCE0008477F4 /* YPVideoView.swift */; };
+		7D3ED7CF25EEBE92008477F4 /* YPLibrarySelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3ED7CE25EEBE92008477F4 /* YPLibrarySelection.swift */; };
+		7D3ED7D225EEC092008477F4 /* PHCachingImageManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3ED7D125EEC092008477F4 /* PHCachingImageManager+Extensions.swift */; };
 		7D46902F25EBB6AD00A75348 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D46902E25EBB6AD00A75348 /* AppDelegate.swift */; };
 		7D46903325EBB6AD00A75348 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D46903225EBB6AD00A75348 /* ViewController.swift */; };
 		7D46903625EBB6AD00A75348 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D46903425EBB6AD00A75348 /* Main.storyboard */; };
@@ -42,6 +46,10 @@
 		1E304C14DDE8A948302100AB /* Pods-ImagePicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImagePicker.debug.xcconfig"; path = "Target Support Files/Pods-ImagePicker/Pods-ImagePicker.debug.xcconfig"; sourceTree = "<group>"; };
 		7D3ED7B925EE9FC0008477F4 /* AlbumItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlbumItemCell.xib; sourceTree = "<group>"; };
 		7D3ED7BF25EEAD5A008477F4 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		7D3ED7C825EEBCCA008477F4 /* YPAssetZoomableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPAssetZoomableView.swift; sourceTree = "<group>"; };
+		7D3ED7CB25EEBCE0008477F4 /* YPVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPVideoView.swift; sourceTree = "<group>"; };
+		7D3ED7CE25EEBE92008477F4 /* YPLibrarySelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPLibrarySelection.swift; sourceTree = "<group>"; };
+		7D3ED7D125EEC092008477F4 /* PHCachingImageManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHCachingImageManager+Extensions.swift"; sourceTree = "<group>"; };
 		7D46902B25EBB6AD00A75348 /* ImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D46902E25EBB6AD00A75348 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D46903225EBB6AD00A75348 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +92,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D3ED7C625EEBCC4008477F4 /* 1 */ = {
+			isa = PBXGroup;
+			children = (
+				7D3ED7C825EEBCCA008477F4 /* YPAssetZoomableView.swift */,
+				7D3ED7CB25EEBCE0008477F4 /* YPVideoView.swift */,
+				7D3ED7CE25EEBE92008477F4 /* YPLibrarySelection.swift */,
+			);
+			path = 1;
+			sourceTree = "<group>";
+		};
 		7D46902225EBB6AC00A75348 = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +155,7 @@
 				7DB25DBC25EBC89D00392717 /* AssetImageLoader.swift */,
 				7DB25DEF25EBDAF700392717 /* UIView+xib.swift */,
 				843CB0B125ED7F9700187C99 /* HeaderMinimizeTool.swift */,
+				7D3ED7D125EEC092008477F4 /* PHCachingImageManager+Extensions.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -169,6 +188,7 @@
 			children = (
 				7DB25DD325EBCFD600392717 /* AlbumItemPreviewView.swift */,
 				7DB25DD625EBD01F00392717 /* AlbumItemPreviewView.xib */,
+				7D3ED7C625EEBCC4008477F4 /* 1 */,
 			);
 			path = AlbumItemPreviewView;
 			sourceTree = "<group>";
@@ -330,16 +350,20 @@
 				7D4690AD25EBC24200A75348 /* VideoAlbumItem.swift in Sources */,
 				7D46908F25EBBCA000A75348 /* AlbumItemCell.swift in Sources */,
 				7DB25DD425EBCFD600392717 /* AlbumItemPreviewView.swift in Sources */,
+				7D3ED7D225EEC092008477F4 /* PHCachingImageManager+Extensions.swift in Sources */,
 				7D46903325EBB6AD00A75348 /* ViewController.swift in Sources */,
 				7DB25DF025EBDAF700392717 /* UIView+xib.swift in Sources */,
 				7D4690A625EBC22400A75348 /* AlbumItem.swift in Sources */,
 				7DB25DE025EBD4BE00392717 /* ImagePickerToolsView.swift in Sources */,
+				7D3ED7CF25EEBE92008477F4 /* YPLibrarySelection.swift in Sources */,
 				843CB0B225ED7F9700187C99 /* HeaderMinimizeTool.swift in Sources */,
 				7D46909D25EBC16400A75348 /* PhotoLibrary.swift in Sources */,
 				843CB0C625ED8A0D00187C99 /* AlbumItemCart.swift in Sources */,
 				7D46902F25EBB6AD00A75348 /* AppDelegate.swift in Sources */,
 				7D46907725EBB99600A75348 /* Album.swift in Sources */,
 				7D46908825EBBA5E00A75348 /* ImagePickerViewController.swift in Sources */,
+				7D3ED7C925EEBCCA008477F4 /* YPAssetZoomableView.swift in Sources */,
+				7D3ED7CC25EEBCE0008477F4 /* YPVideoView.swift in Sources */,
 				843CB0CB25ED8C7300187C99 /* AlbumItemCellItem.swift in Sources */,
 				7D4690AA25EBC23C00A75348 /* PhotoAlbumItem.swift in Sources */,
 				7D3ED7C025EEAD5A008477F4 /* ErrorHandler.swift in Sources */,

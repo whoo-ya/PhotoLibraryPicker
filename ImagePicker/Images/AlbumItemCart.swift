@@ -1,6 +1,6 @@
 import Foundation
 
-class AlbumItemCart {
+public class AlbumItemCart {
     
     private var selectedItems: [AlbumItem] = []
     

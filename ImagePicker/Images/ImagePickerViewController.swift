@@ -6,7 +6,11 @@ class ImagePickerViewController: UIViewController {
     
     private let scrollView = UIScrollView()
     
-    private lazy var previewView: AlbumItemPreviewView = AlbumItemPreviewView.viewFromNib()
+//    private lazy var previewView: AlbumItemPreviewView = AlbumItemPreviewView.viewFromNib()
+    
+    private lazy var previewView = YPAssetZoomableView(frame: CGRect(origin: .zero,
+                                                                     size: CGSize(width: 200, height: 200)))
+    
     
     private lazy var toolsView: ImagePickerToolsView = ImagePickerToolsView.viewFromNib()
     
@@ -14,15 +18,16 @@ class ImagePickerViewController: UIViewController {
         return PhotoLibraryCollectionView(photoLibraryDelegate: self)
     }()
     
-    let library = PhotoLibrary()
-    var selectedAlbum: Album?
+    private let library = PhotoLibrary()
+    
+    private var selectedAlbum: Album?
+    
+    private let cart = AlbumItemCart()
     
     private var previewViewTopConstraint: NSLayoutConstraint!
     
     private var headerMinimizeTool: HeaderMinimizeTool?
-    
-    private let cart = AlbumItemCart()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -126,9 +131,28 @@ class ImagePickerViewController: UIViewController {
 }
 
 extension ImagePickerViewController: PhotoLibraryCollectionViewDelegate {
-    
+
     func selectItem(_ albumItem: AlbumItem) {
-        previewView.bind(albumItem)
+        switch albumItem {
+        case .photo(let photo):
+            previewView.setImage(photo.asset, storedCropPosition: nil) { result in
+                print("test set image result: '\(result)'")
+            } updateCropInfo: {
+                print("test set image updateCropInfo")
+            }
+
+        case .video(let video):
+            previewView.setVideo(video.asset, storedCropPosition: nil) {
+                print("test set video result")
+            } updateCropInfo: {
+                print("test set video updateCropInfo")
+            }
+        }
+//        previewView.bind(albumItem)
+    }
+    
+    func getCart() -> AlbumItemCart {
+        return cart
     }
 }
 
