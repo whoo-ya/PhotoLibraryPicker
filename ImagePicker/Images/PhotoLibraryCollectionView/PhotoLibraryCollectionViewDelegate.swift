@@ -2,7 +2,13 @@ import Foundation
 
 public protocol PhotoLibraryCollectionViewDelegate: class {
     
-    func selectItem(_ albumItem: AlbumItem)
+    /**
+     Был выбран элемент новый элемент для предпросмотра.
+     */
+    func selectItemForPreview(_ albumItem: AlbumItem)
     
-    func getCart() -> AlbumItemCart
+    /**
+     Получить экземпляр корзины для работы выбора фото
+     */
+    func getCart() -> AlbumItemsCart
 }

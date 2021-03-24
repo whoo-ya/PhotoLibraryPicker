@@ -1,10 +1,16 @@
 import UIKit
 
+/**
+ Панель инструментов для работы с пикером выбора фото. Включает:
+ - Инициализацию действия выбора альбома
+ - Переключения режима мультивыбора
+ */
 class ImagePickerToolsView: UIView {
     
     public weak var delegate: ImagePickerToolsViewDelegate?
     
     @IBOutlet weak var albumContainerView: UIView!
+    
     @IBOutlet weak var albumTitleLabel: UILabel!
     
     @IBOutlet weak var albumSelectImage: UIImageView!

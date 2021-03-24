@@ -6,11 +6,14 @@ import Photos
  */
 public class Album {
     
+    public let title: String
+    
     public let collection: PHAssetCollection
     public var items: [AlbumItem] = []
     
     public init(collection: PHAssetCollection) {
         self.collection = collection
+        self.title = collection.localizedTitle ?? ""
     }
     
     public func reload() {

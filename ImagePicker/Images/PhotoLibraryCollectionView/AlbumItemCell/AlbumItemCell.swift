@@ -46,10 +46,10 @@ public class AlbumItemCell: UICollectionViewCell {
         }
     }
     
-    public func setSelected(_ isSelected: Bool, _ index: Int) {
+    public func setSelected(_ isSelected: Bool, _ index: Int?) {
         imageView.alpha = isSelected ? 0.5 : 1.0
         
-        if index != 0 {
+        if let index = index {
             indexLabel.text = "\(index)"
         }
     }

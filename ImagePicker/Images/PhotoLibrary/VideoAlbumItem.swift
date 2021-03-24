@@ -8,11 +8,18 @@ public class VideoAlbumItem: Equatable {
     
     public let asset: PHAsset
     
-    var durationRequestID: Int = 0
-    var duration: Double = 0
+    public var cropRect: CGRect?
+    public var scrollViewContentOffset: CGPoint?
+    public var scrollViewZoomScale: CGFloat?
     
-    public init(asset: PHAsset) {
+    init(asset: PHAsset,
+         cropRect: CGRect? = nil,
+         scrollViewContentOffset: CGPoint? = nil,
+         scrollViewZoomScale: CGFloat? = nil) {
         self.asset = asset
+        self.cropRect = cropRect
+        self.scrollViewContentOffset = scrollViewContentOffset
+        self.scrollViewZoomScale = scrollViewZoomScale
     }
     
     static public func == (lhs: VideoAlbumItem, rhs: VideoAlbumItem) -> Bool {

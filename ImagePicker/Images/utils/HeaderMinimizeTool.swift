@@ -7,6 +7,9 @@ private enum DragDirection {
     case down
 }
 
+/**
+ Реализует сжатие переданного header при скролле CollectionView.
+ */
 public class HeaderMinimizeTool: NSObject, UIGestureRecognizerDelegate {
     
     private let assetViewContainerOriginalConstraintTop: CGFloat = 0

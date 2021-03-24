@@ -1,18 +1,27 @@
 import UIKit
 
+/**
+ Коллекция для выбора фото/видео из переданного ей списка элементов [AlbumItem].
+ Реализует логику мультивыбора с сохранением результата в переданную AlbumItemsCart
+ */
 public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
-    private var items: [AlbumItem] = []
     
+    private let errorHandler = ErrorHandler()
+
     private weak var photoLibraryDelegate: PhotoLibraryCollectionViewDelegate?
+    
+    private let cart: AlbumItemsCart
+    
+    private let albumItemCartService: AlbumItemCartService
+    
+    private var items: [AlbumItem] = []
     
     private var currentSelectItem: AlbumItem? = nil
     
-    private var cart: AlbumItemCart? {
-        return photoLibraryDelegate?.getCart()
-    }
-    
     public var isMultipleSelectEnable = false
+    
+    private let columnCount: CGFloat = 4
+    private let cellSpacing: CGFloat = 2
     
     public init(photoLibraryDelegate: PhotoLibraryCollectionViewDelegate) {
         let layout = UICollectionViewFlowLayout()
@@ -20,26 +29,37 @@ public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDeleg
         layout.minimumLineSpacing = 2
         
         self.photoLibraryDelegate = photoLibraryDelegate
+        self.cart = photoLibraryDelegate.getCart()
+        self.albumItemCartService = AlbumItemCartService(cart: cart)
                 
         super.init(frame: .zero, collectionViewLayout: layout)
         
-        self.delegate = self
-        self.dataSource = self
-        
-        register(UINib(nibName: AlbumItemCell.nibName, bundle: .main),
-                 forCellWithReuseIdentifier: AlbumItemCell.reuseIdentifier)
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func configureUI() {
+        isScrollEnabled = true
+        alwaysBounceVertical = true
+        
+        delegate = self
+        dataSource = self
+        
+        register(UINib(nibName: AlbumItemCell.nibName, bundle: .main),
+                 forCellWithReuseIdentifier: AlbumItemCell.reuseIdentifier)
+    }
+    
     public func bind(_ album: Album) {
         self.items = album.items
         if let selectedItem = items.first {
-            cart?.addItem(selectedItem)
-            self.currentSelectItem = selectedItem
-            photoLibraryDelegate?.selectItem(selectedItem)
+            cart.addItem(selectedItem)
+            selectItem(selectedItem)
+        }
+        else {
+            showEmptyView()
         }
         
         reloadData()
@@ -48,14 +68,33 @@ public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDeleg
     
     public func enableMultipleMode(_ enable: Bool) {
         if !enable {
-            let lastAddedItem = cart?.getLastAdded()
-            cart?.removeAll()
+            let lastAddedItem = cart.getLastAdded()
+            cart.removeAll()
+            
             if let lastAddedItem = lastAddedItem {
-                cart?.addItem(lastAddedItem)
+                cart.addItem(lastAddedItem)
+                selectItem(lastAddedItem)
+            }
+            else if let selectedItem = items.first {
+                cart.addItem(selectedItem)
+                selectItem(selectedItem)
+            }
+            else {
+                errorHandler.handleError(ImagePickerBaseError(message: "Нет элемента для выбора"))
             }
         }
+        
         isMultipleSelectEnable = enable
         reloadData()
+    }
+    
+    public func getCurrentSelectedItem() -> AlbumItem? {
+        return currentSelectItem
+    }
+    
+    private func selectItem(_ item: AlbumItem) {
+        self.currentSelectItem = item
+        photoLibraryDelegate?.selectItemForPreview(item)
     }
     
     private func showEmptyView() {
@@ -81,116 +120,41 @@ public class PhotoLibraryCollectionView: UICollectionView, UICollectionViewDeleg
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: UICollectionViewLayout,
                                sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let columnCount: CGFloat = 4
-        let cellSpacing: CGFloat = 2
-        
         let size = (collectionView.bounds.size.width - (columnCount - 1) * cellSpacing) / columnCount
         return CGSize(width: size, height: size)
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard indexPath.item < items.count, let cart = cart else {
+        guard indexPath.item < items.count else {
             return
         }
         
         let item = items[indexPath.item]
         
-        if isMultipleSelectEnable {
-            selectItemForMultipleMode(cart, item)
+        do {
+            let result = try albumItemCartService.selectItem(item: item,
+                                                             items: items,
+                                                             currentSelectItem: currentSelectItem,
+                                                             isMultiple: isMultipleSelectEnable)
+            self.currentSelectItem = result.1
+            photoLibraryDelegate?.selectItemForPreview(result.1)
+            reloadItems(at: result.0)
         }
-        else {
-            selectItemForOneItemMode(cart, item)
+        catch {
+            errorHandler.handleError(error)
         }
     }
     
-    private func selectItemForOneItemMode(_ cart: AlbumItemCart, _ item: AlbumItem) {
-        guard currentSelectItem != item else {
-            return
-        }
-        
-        var indexPaths: [IndexPath?] = cart.getItems().map { cartItem in
-            if let index = items.firstIndex(of: cartItem) {
-                return IndexPath(row: index, section: 0)
-            }
-            else {
-                return nil
-            }
-        }
-        
-        cart.removeAll()
-        cart.addItem(item)
-        if let index = items.firstIndex(of: item) {
-            indexPaths.append(IndexPath(row: index, section: 0))
-        }
-        
-        self.currentSelectItem = item
-        photoLibraryDelegate?.selectItem(item)
-        
-        reloadItems(at: indexPaths.compactMap { $0 })
-    }
-    
-    private func selectItemForMultipleMode(_ cart: AlbumItemCart, _ item: AlbumItem) {
-        var indexPaths: [IndexPath?] = cart.getItems().map { cartItem in
-            if let index = items.firstIndex(of: cartItem) {
-                return IndexPath(row: index, section: 0)
-            }
-            else {
-                return nil
-            }
-        }
-        
-        let selectedItem: AlbumItem?
-        if cart.isAdded(item) {
-            if item == currentSelectItem {
-                // Если нажали второй раз на выбранное фото, то удаляем его
-                cart.removeItem(item)
-                selectedItem = cart.getLastAdded()
-            }
-            else {
-                // Выбираем это фото как текущее просто, код дальше
-                selectedItem = item
-            }
-        }
-        else {
-            // Добавляем новое фото в список
-            cart.addItem(item)
-            selectedItem = item
-            if let index = items.firstIndex(of: item) {
-                indexPaths.append(IndexPath(row: index, section: 0))
-            }
-        }
-        
-        if selectedItem == nil {
-            if let lastAddedItem = cart.getLastAdded() {
-                photoLibraryDelegate?.selectItem(lastAddedItem)
-            }
-            else if let firstItem = items.first {
-                photoLibraryDelegate?.selectItem(firstItem)
-            }
-        }
-        
-        if let selectedItem = selectedItem {
-            self.currentSelectItem = selectedItem
-            photoLibraryDelegate?.selectItem(selectedItem)
-        }
-        else {
-            ErrorHandler.handleError("Нет элемента для выбора")
-            showEmptyView()
-        }
-                
-        reloadItems(at: indexPaths.compactMap { $0 })
-    }
-    
-    private func getSelectedItemNumber(_ item: AlbumItem) -> Int {
+    private func getSelectedItemNumber(_ item: AlbumItem) -> Int? {
         guard isMultipleSelectEnable else {
-            return 0
+            return nil
         }
         
-        if let index = cart?.getIndex(item) {
+        if let index = cart.getIndex(item) {
             return index + 1
         }
         else {
-            return 0
+            return nil
         }
     }
 }

@@ -1,9 +1,15 @@
 import UIKit
 import Photos
 
+/**
+ Загрузчик изображения из системного альбома на основе переданного PHAsset.
+ После загрузки первично устанавливается сжатое фото, после оригинальное.
+ */
 public class AssetImageLoader {
     
-    public static func loadImage(_ asset: PHAsset, for imageView: UIImageView, completion: (() -> Void)? = nil) {
+    public static func loadImage(_ asset: PHAsset,
+                                 for imageView: UIImageView,
+                                 completion: (() -> Void)? = nil) {
         guard imageView.frame.size != CGSize.zero else {
             imageView.image = UIImage(named: "gallery_placeholder")
             completion?()

@@ -4,7 +4,7 @@ import Photos
 
 /// A video view that contains video layer, supports play, pause and other actions.
 /// Supports xib initialization.
-public class YPVideoView: UIView {
+public class VideoView: UIView {
     public let playImageView = UIImageView(image: nil)
     
     internal let playerView = UIView()
@@ -77,7 +77,7 @@ public class YPVideoView: UIView {
 }
 
 // MARK: - Video handling
-extension YPVideoView {
+extension VideoView {
 
     public func loadVideo<T>(_ item: T) {        
         switch item.self {
@@ -138,7 +138,7 @@ extension YPVideoView {
 }
 
 // MARK: - Other API
-extension YPVideoView {
+extension VideoView {
     public func setPreviewImage(_ image: UIImage) {
         previewImageView.image = image
     }
