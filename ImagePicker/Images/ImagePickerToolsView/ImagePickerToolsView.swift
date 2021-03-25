@@ -17,19 +17,25 @@ class ImagePickerToolsView: UIView {
     
     private var isMultipleSelectEnable = false
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        configureUI()
+    }
+    
     private func configureUI() {
-        albumContainerView.target(forAction: #selector(didTapSelectAlbum), withSender: self)
+        
     }
     
     public func bind(_ item: ImagePickerToolsViewItem) {
-        
+        albumTitleLabel.text = item.album.title
     }
     
     public func multipleSelectEnable() -> Bool {
         return isMultipleSelectEnable
     }
     
-    @objc func didTapSelectAlbum() {
+    @IBAction func didTapSelectAlbum() {
         delegate?.didTapSelectAlbum()
     }
     

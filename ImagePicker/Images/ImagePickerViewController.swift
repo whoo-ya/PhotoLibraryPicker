@@ -124,8 +124,16 @@ class ImagePickerViewController: UIViewController {
     }
     
     func show(album: Album) {
+        guard album != self.selectedAlbum else {
+            return
+        }
+        
         self.selectedAlbum = album
+        
+        cart.removeAll()
+        
         collectionView.bind(album)
+        toolsView.bind(ImagePickerToolsViewItem(album: album))
     }
     
     func refreshSelectedAlbum() {
@@ -203,10 +211,20 @@ extension ImagePickerViewController: PhotoLibraryCollectionViewDelegate {
 extension ImagePickerViewController: ImagePickerToolsViewDelegate {
     
     func didTapSelectAlbum() {
-        
+        let selectAlbumViewController = SelectAlbumViewController(albums: library.albums, delegate: self)
+        let navigationController = UINavigationController(rootViewController: selectAlbumViewController)
+
+        present(navigationController, animated: true, completion: nil)
     }
     
     func didTapMultipleMode(_ enable: Bool) {
         collectionView.enableMultipleMode(enable)
+    }
+}
+
+extension ImagePickerViewController: SelectAlbumViewControllerDelegate {
+    
+    func didSelectAlbum(_ album: Album) {
+        show(album: album)
     }
 }

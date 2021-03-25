@@ -53,6 +53,8 @@ public class PhotoLibrary {
                 let album = Album(collection: assetCollection)
                 album.reload()
                 
+                
+                
                 if !album.items.isEmpty {
                     self.albums.append(album)
                 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,29 +20,43 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3fm-c3-cX9">
                             <rect key="frame" x="5" y="5" width="61.5" height="20"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGX-1E-G8g">
+                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGX-1E-G8g">
                                     <rect key="frame" x="0.0" y="0.0" width="41.5" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yeR-Nd-ziD">
+                                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yeR-Nd-ziD">
                                     <rect key="frame" x="46.5" y="5" width="10" height="10"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="10" id="Btv-rJ-bZj"/>
                                         <constraint firstAttribute="height" constant="10" id="Ig2-NR-toH"/>
                                     </constraints>
                                 </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z9L-xG-DZW">
+                                    <rect key="frame" x="0.0" y="0.0" width="61.5" height="20"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal">
+                                        <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="didTapSelectAlbum" destination="5zg-RE-4MW" eventType="touchUpInside" id="bs3-5r-eox"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="yeR-Nd-ziD" secondAttribute="bottom" constant="5" id="3rp-fT-mVY"/>
+                                <constraint firstItem="z9L-xG-DZW" firstAttribute="leading" secondItem="3fm-c3-cX9" secondAttribute="leading" id="6Ak-09-Xa6"/>
+                                <constraint firstAttribute="bottom" secondItem="z9L-xG-DZW" secondAttribute="bottom" id="9Ef-po-PPd"/>
                                 <constraint firstItem="IGX-1E-G8g" firstAttribute="leading" secondItem="3fm-c3-cX9" secondAttribute="leading" id="Ec8-VG-Gc3"/>
                                 <constraint firstAttribute="trailing" secondItem="yeR-Nd-ziD" secondAttribute="trailing" constant="5" id="F58-zD-FnH"/>
                                 <constraint firstAttribute="bottom" secondItem="IGX-1E-G8g" secondAttribute="bottom" id="HbL-dT-RHa"/>
                                 <constraint firstItem="IGX-1E-G8g" firstAttribute="top" secondItem="3fm-c3-cX9" secondAttribute="top" id="ODN-go-d6b"/>
+                                <constraint firstAttribute="trailing" secondItem="z9L-xG-DZW" secondAttribute="trailing" id="TLL-Nf-8zV"/>
                                 <constraint firstItem="yeR-Nd-ziD" firstAttribute="top" secondItem="3fm-c3-cX9" secondAttribute="top" constant="5" id="XYd-7e-6oP"/>
                                 <constraint firstItem="yeR-Nd-ziD" firstAttribute="leading" secondItem="IGX-1E-G8g" secondAttribute="trailing" constant="5" id="aun-sz-2ZV"/>
+                                <constraint firstItem="z9L-xG-DZW" firstAttribute="top" secondItem="3fm-c3-cX9" secondAttribute="top" id="hR8-dn-iZg"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uH6-ME-r48">
