@@ -42,6 +42,7 @@
 		7D8CF7DA260D130F00765E3B /* SelectAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CF7D9260D130F00765E3B /* SelectAlbumCell.swift */; };
 		7D8CF7DD260D132300765E3B /* SelectAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D8CF7DC260D132300765E3B /* SelectAlbumCell.xib */; };
 		7D8CF7E0260D143600765E3B /* SelectAlbumCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CF7DF260D143600765E3B /* SelectAlbumCellItem.swift */; };
+		7D8CF7E5260D1D0000765E3B /* CropImagePickerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CF7E4260D1D0000765E3B /* CropImagePickerError.swift */; };
 		7DB25DBD25EBC89D00392717 /* AssetImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB25DBC25EBC89D00392717 /* AssetImageLoader.swift */; };
 		7DB25DC625EBCDF100392717 /* PhotoLibraryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB25DC525EBCDF100392717 /* PhotoLibraryCollectionView.swift */; };
 		7DB25DDD25EBD21F00392717 /* PhotoLibraryCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB25DDC25EBD21F00392717 /* PhotoLibraryCollectionViewDelegate.swift */; };
@@ -96,6 +97,7 @@
 		7D8CF7D9260D130F00765E3B /* SelectAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAlbumCell.swift; sourceTree = "<group>"; };
 		7D8CF7DC260D132300765E3B /* SelectAlbumCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectAlbumCell.xib; sourceTree = "<group>"; };
 		7D8CF7DF260D143600765E3B /* SelectAlbumCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAlbumCellItem.swift; sourceTree = "<group>"; };
+		7D8CF7E4260D1D0000765E3B /* CropImagePickerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropImagePickerError.swift; sourceTree = "<group>"; };
 		7DB25DBC25EBC89D00392717 /* AssetImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetImageLoader.swift; sourceTree = "<group>"; };
 		7DB25DC525EBCDF100392717 /* PhotoLibraryCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryCollectionView.swift; sourceTree = "<group>"; };
 		7DB25DDC25EBD21F00392717 /* PhotoLibraryCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -189,8 +191,7 @@
 			children = (
 				7D7DB79D260BC738006F881E /* AlbumItemCropService */,
 				7DB25DBC25EBC89D00392717 /* AssetImageLoader.swift */,
-				7D7DB792260BBF00006F881E /* ImagePickerBaseError.swift */,
-				7D7DB795260BBF31006F881E /* PermissionImagePickerError.swift */,
+				7D8CF7E2260D1CF600765E3B /* Errors */,
 				843CB0B125ED7F9700187C99 /* HeaderMinimizeTool.swift */,
 				7D3ED7D125EEC092008477F4 /* PHCachingImageManager+Extensions.swift */,
 				7D39B86826091461002AED21 /* UIImage+Extensions.swift */,
@@ -238,6 +239,16 @@
 				7D8CF7DF260D143600765E3B /* SelectAlbumCellItem.swift */,
 			);
 			path = SelectAlbumViewController;
+			sourceTree = "<group>";
+		};
+		7D8CF7E2260D1CF600765E3B /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				7D7DB792260BBF00006F881E /* ImagePickerBaseError.swift */,
+				7D8CF7E4260D1D0000765E3B /* CropImagePickerError.swift */,
+				7D7DB795260BBF31006F881E /* PermissionImagePickerError.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 		7DB25DE525EBD57200392717 /* ImagePickerToolsView */ = {
@@ -428,6 +439,7 @@
 				7DB25DF025EBDAF700392717 /* UIView+xib.swift in Sources */,
 				7D4690A625EBC22400A75348 /* AlbumItem.swift in Sources */,
 				7DB25DE025EBD4BE00392717 /* ImagePickerToolsView.swift in Sources */,
+				7D8CF7E5260D1D0000765E3B /* CropImagePickerError.swift in Sources */,
 				7D3ED7CF25EEBE92008477F4 /* LibraryItemCropPosition.swift in Sources */,
 				843CB0B225ED7F9700187C99 /* HeaderMinimizeTool.swift in Sources */,
 				7D39B86C26092B90002AED21 /* MediaPhotoItem.swift in Sources */,

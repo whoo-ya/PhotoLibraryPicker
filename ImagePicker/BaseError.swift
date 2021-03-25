@@ -1,12 +1,12 @@
 import Foundation
 
-class BaseError: Error {
+public class BaseError: Error {
     
-    let message: String
+    public let message: String
     
-    let cause: Error?
+    public let cause: Error?
     
-    init(message: String, cause: Error? = nil) {
+    public init(message: String, cause: Error? = nil) {
         self.message = message
         self.cause = cause
     }

@@ -22,7 +22,7 @@ class AlbumItemCropService {
     
     public func getCropedMediaItems(items: [AlbumItem],
 //                                    updateProgress: ((_ progress: Float) -> Void),
-                                    _ completed: @escaping ((Result<[MediaItem], Error>) -> Void)) {
+                                    _ completed: @escaping ((Result<[MediaItem], CropImagePickerError>) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else {
                 return
@@ -37,6 +37,7 @@ class AlbumItemCropService {
             }
             
             var resultMediaItems: [MediaItem] = []
+            var errors: [Error] = []
             let asyncGroup = DispatchGroup()
             
             for asset in selectedAssets {
@@ -45,48 +46,51 @@ class AlbumItemCropService {
                 switch asset.asset.mediaType {
                 case .image:
                     self.fetchImageAndCrop(for: asset.asset, withCropRect: asset.cropRect) { result in
+                        defer {
+                            asyncGroup.leave()
+                        }
                         switch result {
                         case .success(let (image, exifMeta)):
                             let photo = MediaPhotoItem(image: image, exifMeta: exifMeta, asset: asset.asset)
                             resultMediaItems.append(MediaItem.photo(item: photo))
                         case .failure(let error):
-                            // TODO: Прервать обработку и вернуть ошибку.
-                            completed(.failure(error))
-                            break
+                            errors.append(error)
                         }
-                        asyncGroup.leave()
                     }
                 case .video:
                     self.fetchVideoAndApplySettings(for: asset.asset,
                                                     withCropRect: asset.cropRect) { result in
+                        defer {
+                            asyncGroup.leave()
+                        }
                         switch result {
                         case .success(let videoURL):
                             do {
                                 let videoItem = MediaVideoItem(thumbnail: try self.thumbnailFromVideoPath(videoURL),
-                                                               videoURL: videoURL, asset: asset.asset)
+                                                               videoURL: videoURL,
+                                                               asset: asset.asset)
                                 resultMediaItems.append(MediaItem.video(item: videoItem))
-                                asyncGroup.leave()
                             }
                             catch {
-                                // TODO: Прервать обработку и вернуть ошибку.
-                                completed(.failure(error))
-                                asyncGroup.leave()
-                                return
+                                errors.append(error)
                             }
                         case .failure(let error):
-                            // TODO: Прервать обработку и вернуть ошибку.
-                            completed(.failure(error))
-                            asyncGroup.leave()
-                            return
+                            errors.append(error)
                         }
                     }
                 default:
-                    break
+                    asyncGroup.leave()
+                    errors.append(ImagePickerBaseError(message: "Неизвестный тип медиа для обрезки: '\(asset.asset.mediaType)'"))
                 }
             }
             
             asyncGroup.notify(queue: .main) {
-                //TODO: sort the array based on the initial order of the assets in selectedAssets
+                guard errors.isEmpty else {
+                    completed(.failure(CropImagePickerError(errors: errors)))
+                    return
+                }
+                
+                //Sort the array based on the initial order of the assets in selectedAssets
                 resultMediaItems.sort { (first, second) -> Bool in
                     var firstAsset: PHAsset?
                     var secondAsset: PHAsset?
@@ -114,6 +118,7 @@ class AlbumItemCropService {
                     
                     return firstIndex < secondIndex
                 }
+                
                 completed(.success(resultMediaItems))
             }
         }
