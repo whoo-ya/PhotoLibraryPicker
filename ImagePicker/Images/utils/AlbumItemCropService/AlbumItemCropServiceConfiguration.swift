@@ -29,13 +29,21 @@ class AlbumItemCropServiceConfiguration {
      */
     public var videoCompression: String
     
+    /**
+     Длина видео в секундах, nil - использовать исходную длину видео
+     Defailts 1s.
+     */
+    public let videoLength: Double?
+    
     init(libraryTimeLimit: TimeInterval = 60,
          minimumTimeLimit: TimeInterval = 3.0,
          videoFileType: AVFileType = .mov,
-         videoCompression: String = AVAssetExportPresetHighestQuality) {
+         videoCompression: String = AVAssetExportPresetHighestQuality,
+         videoLength: Double? = 1) {
         self.libraryTimeLimit = libraryTimeLimit
         self.minimumTimeLimit = minimumTimeLimit
         self.videoFileType = videoFileType
         self.videoCompression = videoCompression
+        self.videoLength = videoLength
     }
 }

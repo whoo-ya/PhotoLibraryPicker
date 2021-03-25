@@ -145,17 +145,21 @@ class ImagePickerViewController: UIViewController {
     
     @objc
     private func saveSelectedPhoto() {
-        albumItemCropService.getCropedMediaItems(items: cart.getItems()) { [weak self] result in
-            switch result {
-            case .success(let items):
-                DispatchQueue.main.async {
-                    let vc = TestPreviewSelectedItemViewController.create(items)
-                    self?.present(vc, animated: true, completion: nil)
-                }
-            case .failure(let error):
-                self?.errorHandler.handleError(error)
-            }
-        }
+        albumItemCropService.getCropedMediaItems(items: cart.getItems(),
+                                                 updateProgress: { progress in
+                                                    print("progress: '\(progress)'")
+                                                 },
+                                                 completed: { [weak self] result in 
+                                                    switch result {
+                                                    case .success(let items):
+                                                        DispatchQueue.main.async {
+                                                            let vc = TestPreviewSelectedItemViewController.create(items)
+                                                            self?.present(vc, animated: true, completion: nil)
+                                                        }
+                                                    case .failure(let error):
+                                                        self?.errorHandler.handleError(error)
+                                                    }
+                                                 })
     }
     
     internal func updateCropInfo() {

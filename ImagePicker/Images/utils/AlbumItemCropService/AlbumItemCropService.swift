@@ -20,9 +20,13 @@ class AlbumItemCropService {
         self.configuration = configuration
     }
     
+    deinit {
+        forseCancelExporting()
+    }
+    
     public func getCropedMediaItems(items: [AlbumItem],
-//                                    updateProgress: ((_ progress: Float) -> Void),
-                                    _ completed: @escaping ((Result<[MediaItem], CropImagePickerError>) -> Void)) {
+                                    updateProgress: ((_ progress: Float) -> Void)? = nil,
+                                    completed: @escaping ((Result<[MediaItem], CropImagePickerError>) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else {
                 return
@@ -59,7 +63,8 @@ class AlbumItemCropService {
                     }
                 case .video:
                     self.fetchVideoAndApplySettings(for: asset.asset,
-                                                    withCropRect: asset.cropRect) { result in
+                                                    withCropRect: asset.cropRect,
+                                                    updateProgress: updateProgress) { result in
                         defer {
                             asyncGroup.leave()
                         }
@@ -124,6 +129,9 @@ class AlbumItemCropService {
         }
     }
     
+    /**
+     Обрезка фото
+     */
     public func fetchImageAndCrop(for asset: PHAsset,
                                   withCropRect cropRect: CGRect?,
                                   callback: @escaping ((Result<(UIImage, [String: Any]), Error>) -> Void)) {
@@ -132,9 +140,12 @@ class AlbumItemCropService {
         imageManager.fetchImage(for: asset, cropRect: cropRect, targetSize: ts, callback: callback)
     }
     
+    /**
+     Обрезка видео
+     */
     private func fetchVideoAndApplySettings(for asset: PHAsset,
                                             withCropRect rect: CGRect? = nil,
-//                                            updateProgress: ((_ progress: Float) -> Void),
+                                            updateProgress: ((_ progress: Float) -> Void)?,
                                             callback: @escaping (Result<URL, Error>) -> Void) {
         guard fitsVideoLengthLimits(asset: asset) else {
             callback(.failure(ImagePickerBaseError(message: "Длина видео не соответсвует настройкам 3-60сек")))
@@ -152,13 +163,13 @@ class AlbumItemCropService {
         
         fetchVideoUrlAndCrop(for: asset,
                              cropRect: resultCropRect,
-//                                 updateProgress: updateProgress,
+                             updateProgress: updateProgress,
                              callback: callback)
     }
     
     func fetchVideoUrlAndCrop(for videoAsset: PHAsset,
                               cropRect: CGRect,
-//                              updateProgress: ((_ progress: Float) -> Void),
+                              updateProgress: ((_ progress: Float) -> Void)?,
                               callback: @escaping (Result<URL, Error>) -> Void) {
         let videosOptions = PHVideoRequestOptions()
         videosOptions.isNetworkAccessAllowed = true
@@ -171,7 +182,13 @@ class AlbumItemCropService {
                 }
                 
                 let assetComposition = AVMutableComposition()
-                let assetMaxDuration = asset.duration
+                let assetMaxDuration: CMTime
+                if let videoLength = self.configuration.videoLength {
+                    assetMaxDuration = CMTime(seconds: videoLength, preferredTimescale: .max)
+                }
+                else {
+                    assetMaxDuration = asset.duration
+                }
                 let trackTimeRange = CMTimeRangeMake(start: CMTime.zero, duration: assetMaxDuration)
                 
                 // 1. Inserting audio and video tracks in composition
@@ -245,11 +262,17 @@ class AlbumItemCropService {
 
                 // 6. Exporting
                 DispatchQueue.main.async {
-                    self.exportTimer = Timer.scheduledTimer(timeInterval: 0.1,
-                                                            target: self,
-                                                            selector: #selector(self.onTickExportTimer),
-                                                            userInfo: exportSession,
-                                                            repeats: true)
+                    self.exportTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                        guard let progress = exportSession?.progress else {
+                            return
+                        }
+                        updateProgress?(progress)
+                        
+                        if progress > 0.99 {
+                            self.exportTimer?.invalidate()
+                            self.exportTimer = nil
+                        }
+                    }
                 }
 
                 if let s = exportSession {
@@ -294,6 +317,12 @@ class AlbumItemCropService {
 //                self.exportTimer = nil
 //            }
 //        }
+    }
+    
+    func forseCancelExporting() {
+        for s in self.currentExportSessions {
+            s.cancelExport()
+        }
     }
     
     private func fitsVideoLengthLimits(asset: PHAsset) -> Bool {
